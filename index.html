@@ -507,7 +507,7 @@ var planeAnim=null;
 function plane(){
 if(reduce)return;var g=$('plane');if(!g.animate)return;
 if(planeAnim)planeAnim.cancel();
-planeAnim=g.animate([{opacity:1,transform:'translate(-1350px,58px)'},{opacity:1,transform:'translate(-300px,46px)',offset:.25},{opacity:1,transform:'translate(500px,66px)',offset:.55},{opacity:1,transform:'translate(1200px,48px)',offset:.82},{opacity:1,transform:'translate(2050px,58px)'}],{duration:20000,easing:'linear',fill:'forwards'});
+planeAnim=g.animate([{opacity:1,transform:'translate(-1350px,58px)'},{opacity:1,transform:'translate(-300px,46px)',offset:.25},{opacity:1,transform:'translate(500px,66px)',offset:.55},{opacity:1,transform:'translate(1200px,48px)',offset:.82},{opacity:1,transform:'translate(2500px,56px)',offset:.97},{opacity:0,transform:'translate(2600px,56px)'}],{duration:23000,easing:'linear',fill:'none'});
 }
 function reset(){if(planeAnim){planeAnim.cancel();planeAnim=null;}timers.forEach(clearTimeout);timers=[];if(window.speechSynthesis)speechSynthesis.cancel();sleigh.classList.remove('leave','landed','approach','go','touch');santa.classList.remove('talk','gone');sgift.classList.remove('gone');walker.classList.remove('walk','back','talk','gave');dbox.classList.remove('show','ready','open','poof');lightsOff();fdone=false;dbox.setAttribute('tabindex','-1');cwrap.classList.remove('on','leaving');card.classList.remove('is-opened');cclick.classList.remove('is-hidden');st=0;tree.classList.remove('party');tbusy=false;bub.classList.remove('on');burst.innerHTML='';}
 function start(){
