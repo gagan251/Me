@@ -23,14 +23,6 @@ body{margin:0;overflow:hidden;background:#BE1E2D;font-family:system-ui,-apple-sy
 .cart-page-bottom .wb{font-size:calc(var(--ch)*.05)}
 .rp{right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
 }
-#rot{display:none;position:fixed;inset:0;z-index:100;background:#000;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;font-family:'Mountains of Christmas',Georgia,serif;font-weight:700}
-#rot svg{animation:rotp 2.2s ease-in-out infinite;margin-bottom:18px}
-@keyframes rotp{0%,25%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
-#rot p{margin:0}
-#rot .r1{color:#fff;font-size:clamp(24px,7vw,38px)}
-#rot .r2{margin-top:10px;font-size:clamp(30px,10vw,52px);background:linear-gradient(180deg,#fffbe0,#F7D774 50%,#d79a2b);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
-@media (orientation:portrait){#rot{display:flex}.rp{display:none}}
-@media (prefers-reduced-motion:reduce){#rot svg{animation:none}}
 .stage svg{display:block;width:100%;height:100%}
 .snow{position:absolute;inset:0;pointer-events:none}
 .snow i{position:absolute;top:-8px;border-radius:50%;background:#fff;opacity:0;animation:fall linear infinite}
@@ -395,7 +387,6 @@ body{margin:0;overflow:hidden;background:#BE1E2D;font-family:system-ui,-apple-sy
 <span class="click-icon" id="cclick"><svg aria-hidden="true" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M31.6 17.7V26c0 1.9-.7 3.7-2 5.1v.9c0 1.6-1.3 3-3 3h-8.4c-1.6 0-3-1.3-3-3 0-.6.5-1 1-1s1 .4 1 1c0 .5.4 1 1 1h8.4c.5 0 1-.4 1-1v-1.2-.3-.1c0-.1.1-.2.2-.3 1.1-1.1 1.7-2.5 1.7-4v-8.3c0-.3-.1-.5-.3-.7-.1-.1-.5-.4-1-.3-.4.1-.8.6-.8 1.1v2.4c0 .6-.5 1-1 1s-1-.4-1-1v-5.5c0-.3-.1-.5-.3-.7s-.4-.3-.7-.3c-.5 0-1 .5-1 1v5.5c0 .6-.5 1-1 1s-1-.4-1-1v-8.5c0-.3-.1-.5-.3-.7s-.4-.3-.7-.3c-.5 0-1 .5-1 1v8.5c0 .6-.5 1-1 1s-1-.4-1-1V7.7c0-.3-.1-.5-.3-.7-.1-.1-.5-.4-1-.3-.4.1-.8.6-.8 1.1V20c0 .4-.2.8-.6.9-.4.2-.8.1-1.1-.2L11 18.1c-.6-.6-1.6-.6-2.2.1-.5.6-.4 1.5.2 2.1l7 7c.4.4.4 1 0 1.4-.2.2-.5.3-.7.3-.3 0-.5-.1-.7-.3l-7-7.1c-1.3-1.3-1.5-3.5-.3-4.8C8 16 9 15.5 10 15.5c.9 0 1.8.4 2.5 1l.9.9V7.9c0-1.4.9-2.7 2.3-3 1-.3 2.1 0 2.8.8.6.6.9 1.3.9 2.1V9c.3-.1.7-.2 1-.2.8 0 1.5.3 2.1.9s.9 1.3.9 2.1v.2c.3-.1.7-.2 1-.2.8 0 1.5.3 2.1.9s.9 1.3.9 2.1v.2c.1 0 .2-.1.3-.1 1-.3 2.1 0 2.8.8.8.5 1.1 1.3 1.1 2z"/></svg></span>
 </div>
 </div>
-<div id="rot" role="alert"><svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="#F2C14E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M3 9a9 9 0 0 1 3-4M21 15a9 9 0 0 1-3 4"/><path d="M6 3.5V6H3.5M18 20.5V18h2.5"/></svg><p class="r1">Rotate your device</p><p class="r2">Vo Thi S.Ny</p></div>
 <p class="vh" id="note" aria-live="polite"></p>
 <button class="rp" id="replay" type="button" aria-label="Replay"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
 <script>
@@ -665,15 +656,12 @@ h+=i%4===0?'<use href="#s" x="'+x+'" y="'+y+'" class="tw"/>':'<circle cx="'+x+'"
 sky.innerHTML=h;
 }
 window.addEventListener('resize',fit);window.addEventListener('orientationchange',fit);fit();
+var skyR=document.querySelector('svg rect[fill="url(#skyg)"]'),vgR=document.querySelector('svg rect[fill="url(#vg)"]');
+function skyFix(){if(!skyR)return;var y=(vb0<0)?vb0-60:-150;skyR.setAttribute('y',y);skyR.setAttribute('height',900-y);if(vgR){vgR.setAttribute('y',y);vgR.setAttribute('height',900-y);}}
+window.addEventListener('resize',skyFix);window.addEventListener('orientationchange',skyFix);skyFix();
 $('replay').addEventListener('click',start);
-/* Black screen in portrait: the scene only plays in landscape */
 var started=false;
-function orient(){
-if(port.matches){if(started){started=false;reset();}}
-else if(!started){started=true;start();}
-}
-if(port.addEventListener)port.addEventListener('change',orient);
-window.addEventListener('resize',orient);window.addEventListener('orientationchange',orient);
+function orient(){if(!started){started=true;start();}}
 orient();
 })();
 </script>
